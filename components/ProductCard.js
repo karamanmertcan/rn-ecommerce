@@ -1,12 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { Card, Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductCard = (props) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log(props.id);
+        navigation.navigate('ProductDetail', {
+          itemId: props.id
+        });
       }}>
       <View style={styles.container}>
         <Card
@@ -36,7 +40,9 @@ const ProductCard = (props) => {
               marginTop: 10
             }}
             onPress={() => {
-              console.log(props.id);
+              navigation.navigate('ProductDetail', {
+                itemId: props.id
+              });
             }}
             title="VIEW NOW"
           />

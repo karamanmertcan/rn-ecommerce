@@ -20,7 +20,10 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    LogBox.ignoreLogs([
+      'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.'
+    ]);
+
     getProducts();
   }, []);
   return (
