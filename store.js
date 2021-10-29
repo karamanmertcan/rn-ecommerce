@@ -6,15 +6,27 @@ export const user = atom({});
 
 export const cartItems = atom([]);
 
+export const signedIn = atom(false);
+
 export const loginUser = atom(
   () => '',
   async (get, set, userData) => {
     const { data } = await axios.post('http://172.20.10.2:8000/api/login', userData);
     const dataJSON = JSON.stringify(data);
-    console.log(dataJSON);
 
     set(user, data);
     await AsyncStorage.setItem('auth', dataJSON);
+    set(signedIn, true);
+  }
+);
+
+export const logoutUser = atom(
+  (get) => get(signedIn),
+  async (get, set) => {
+    set(user, {});
+    await AsyncStorage.removeItem('auth');
+    set(signedIn, false);
+    console.log('logged out');
   }
 );
 

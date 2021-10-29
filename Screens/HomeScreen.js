@@ -4,16 +4,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatGrid } from 'react-native-super-grid';
 import CarouselCards from '../components/CarouselCards';
 import ProductCard from '../components/ProductCard';
+import { signedIn } from '../store';
+import { useAtom } from 'jotai';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getProducts = async () => {
+  const getProducts = async (abort) => {
     setIsLoading(true);
     try {
-      const res = await fetch('https://fakestoreapi.com/products/');
+      const res = await fetch('https://fakestoreapi.com/products/', { signal: abort });
       const data = await res.json();
+      console.log(data);
 
       setProducts(data);
       setIsLoading(false);
@@ -24,11 +27,17 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     LogBox.ignoreLogs([
       'VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead.'
     ]);
 
-    getProducts();
+    getProducts(signal);
+
+    return function cleanup() {
+      abortController.abort();
+    };
   }, []);
   return (
     <SafeAreaView>

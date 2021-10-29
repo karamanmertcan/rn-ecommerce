@@ -79,8 +79,8 @@ const LoginScreen = ({ navigation }) => {
         title="Login"
         onPress={
           // removeTokenFromStorage
-          // handleSubmit(onSubmit)
-          getTokenFromStorage
+          handleSubmit(onSubmit)
+          // getTokenFromStorage
           // navigation.navigate('Home');
         }
       />
