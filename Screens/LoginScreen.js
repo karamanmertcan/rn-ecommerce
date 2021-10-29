@@ -1,43 +1,38 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useAtom } from 'jotai';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, StyleSheet } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { useForm, Controller } from 'react-hook-form';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { loginUser, user } from '../store';
 const LoginScreen = ({ navigation }) => {
   const { control, handleSubmit, register } = useForm();
 
-  useEffect(() => {
-    getTokenFromStorage();
-  }, [navigation]);
+  const [enter, enterSet] = useAtom(loginUser);
+  const [userToken] = useAtom(user);
+
+  // useEffect(() => {
+  //   getTokenFromStorage();
+  // }, [navigation]);
 
   const getTokenFromStorage = async () => {
+    // const value = await AsyncStorage.getItem('auth');
+    // const token = JSON.parse(value);
+    // console.log(token.token);
+    console.log(userToken);
+  };
+
+  const removeTokenFromStorage = async () => {
     const value = await AsyncStorage.getItem('auth');
-    const token = JSON.parse(value);
-    console.log(token.token);
-    if (token.token) {
-      navigation.navigate('Home');
-    } else {
-      navigation.navigate('Login');
-    }
+
+    await AsyncStorage.removeItem('auth');
+    console.log(value);
   };
 
   const onSubmit = async (input) => {
-    console.log(input);
-    try {
-      console.log('selam');
-
-      const { data } = await axios.post('http://172.20.10.2:8000/api/login', {
-        email: input.email,
-        password: input.password
-      });
-      await AsyncStorage.setItem('auth', JSON.stringify(data));
-      // const value = await AsyncStorage.getItem('auth');
-      console.log(value);
-    } catch (error) {
-      console.log(error);
-    }
+    // console.log(input);
+    enterSet(input);
   };
 
   return (
@@ -83,7 +78,9 @@ const LoginScreen = ({ navigation }) => {
         }}
         title="Login"
         onPress={
-          handleSubmit(onSubmit)
+          // removeTokenFromStorage
+          // handleSubmit(onSubmit)
+          getTokenFromStorage
           // navigation.navigate('Home');
         }
       />

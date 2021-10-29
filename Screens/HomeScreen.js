@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, LogBox } from 'react-native';
+import { StyleSheet, View, ScrollView, LogBox, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatGrid } from 'react-native-super-grid';
 import CarouselCards from '../components/CarouselCards';
@@ -7,15 +7,19 @@ import ProductCard from '../components/ProductCard';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getProducts = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch('https://fakestoreapi.com/products/');
       const data = await res.json();
 
       setProducts(data);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -35,13 +39,17 @@ const HomeScreen = () => {
           </View>
 
           <View style={styles.products}>
-            <FlatGrid
-              itemDimension={130}
-              data={products}
-              style={styles.gridView}
-              spacing={10}
-              renderItem={({ item }) => <ProductCard {...item} />}
-            />
+            {isLoading ? (
+              <Text>Loading...</Text>
+            ) : (
+              <FlatGrid
+                itemDimension={130}
+                data={products}
+                style={styles.gridView}
+                spacing={10}
+                renderItem={({ item }) => <ProductCard {...item} />}
+              />
+            )}
           </View>
         </ScrollView>
       </View>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from 'react-native-elements';
+import { useAtom } from 'jotai';
+import { addItemToCart } from '../store';
 
 const Spinner = () => {
   return (
@@ -12,6 +14,7 @@ const Spinner = () => {
 };
 
 const ProductDetailsScreen = ({ route }) => {
+  const [addItem, addItemSet] = useAtom(addItemToCart);
   const { itemId } = route.params;
 
   const [singleProduct, setSingleProduct] = useState([]);
@@ -93,7 +96,7 @@ const ProductDetailsScreen = ({ route }) => {
                   width: 200
                 }}
                 onPress={() => {
-                  console.log('selam');
+                  addItemSet(singleProduct);
                 }}
                 title="VIEW NOW"
               />
