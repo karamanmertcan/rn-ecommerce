@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { useAtom } from 'jotai';
+import { addItemToCart } from '../store';
 
 const ProductCard = (props) => {
+  const [addItem, addItemSet] = useAtom(addItemToCart);
+
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -41,9 +45,10 @@ const ProductCard = (props) => {
               backgroundColor: '#E83C62'
             }}
             onPress={() => {
-              navigation.navigate('ProductDetail', {
-                itemId: props.id
-              });
+              // navigation.navigate('ProductDetail', {
+              //   itemId: props.id
+              // });
+              addItemSet(props);
             }}
             title="WOM'LA"
           />

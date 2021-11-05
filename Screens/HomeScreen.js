@@ -60,6 +60,22 @@ const HomeScreen = () => {
               }}
             />
           </View>
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 75
+            }}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 40,
+                color: '#E83C62'
+              }}>
+              Abonelikler
+            </Text>
+          </View>
           <View style={styles.products}>
             {isLoading ? (
               <Text>Loading...</Text>
@@ -83,6 +99,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     alignItems: 'center',
     height: 300
   },

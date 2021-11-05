@@ -15,15 +15,21 @@ import { useAtom } from 'jotai';
 const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
+
 function TabNavBar() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: 'red'
+      }}>
       <Tab.Screen
         name='Ana Sayfa'
         component={HomeScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({ color, size }) => <Ionicons name='ios-home' size={size} color={color} />
+          tabBarIcon: ({ tintColor, size, color }) => (
+            <Ionicons name='ios-home' size={size} color={color} size={size} />
+          )
         }}
       />
       <Tab.Screen

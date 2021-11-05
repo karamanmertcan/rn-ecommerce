@@ -7,24 +7,49 @@ import CartItem from '../components/CartItem';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CartScreen = () => {
+const CartScreen = (props) => {
   const [localCartItems, setLocalCartItems] = useState([]);
 
   const addItems = async () => {
     const value = await AsyncStorage.getItem('cart');
-    setLocalCartItems(JSON.parse(value));
+    const bakeToJson = value && JSON.parse(value);
+
+    if (value !== null && bakeToJson.length >= 1) {
+      setLocalCartItems(bakeToJson);
+    } else {
+      setLocalCartItems([]);
+    }
   };
 
   useEffect(() => {
     addItems();
-  }, [localCartItems]);
+    return () => {
+      setLocalCartItems([]);
+    };
+  }, [props]);
+
+  addItems();
 
   return (
     <View style={styles.cartItemContainer}>
       <ScrollView>
-        {localCartItems.map((item, index) => (
-          <CartItem key={index} {...item} />
-        ))}
+        {localCartItems.length > 0 ? (
+          localCartItems?.map((item, index) => <CartItem key={index} {...item} />)
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <Text
+              style={{
+                fontSize: 30
+              }}>
+              Sepet Bos
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
