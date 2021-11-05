@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView } from 're
 import { cartItems } from '../store';
 import { useAtom } from 'jotai';
 import { FlatGrid } from 'react-native-super-grid';
-import { CartItem } from '../components/CartItem';
+import CartItem from '../components/CartItem';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -12,7 +12,6 @@ const CartScreen = () => {
 
   const addItems = async () => {
     const value = await AsyncStorage.getItem('cart');
-
     setLocalCartItems(JSON.parse(value));
   };
 
@@ -21,16 +20,10 @@ const CartScreen = () => {
   }, [localCartItems]);
 
   return (
-    <View>
+    <View style={styles.cartItemContainer}>
       <ScrollView>
         {localCartItems.map((item, index) => (
-          <Image
-            key={index}
-            resizeMode="cover"
-            style={{ width: 100, height: 100, marginTop: 10 }}
-            source={{
-              uri: item.image
-            }}></Image>
+          <CartItem key={index} {...item} />
         ))}
       </ScrollView>
     </View>
@@ -38,10 +31,16 @@ const CartScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  item: {
+  cartItemContainer: {
+    height: 'auto',
     width: '100%',
-    height: 1000,
-    backgroundColor: '#3f1d'
+    flex: 1
+  },
+
+  item: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%'
   }
 });
 

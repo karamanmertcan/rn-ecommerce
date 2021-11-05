@@ -31,13 +31,13 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const onSubmit = async (input) => {
-    // console.log(input);
+    console.log(input);
     enterSet(input);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.loginHeader}>Bewomsta</Text>
+      <Text style={styles.loginHeader}>LetWOM</Text>
       <Controller
         control={control}
         rules={{
@@ -45,15 +45,18 @@ const LoginScreen = ({ navigation }) => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            placeholder="Email"
+            placeholder='Email'
             leftIcon={{ type: 'font-awesome', name: 'envelope' }}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
             value={value}
+            inputStyle={{
+              textDecorationColor: '#fff'
+            }}
           />
         )}
-        name="email"
-        defaultValue=""
+        name='email'
+        defaultValue=''
       />
       <Controller
         control={control}
@@ -62,26 +65,31 @@ const LoginScreen = ({ navigation }) => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            placeholder="Password"
+            placeholder='Password'
             leftIcon={{ type: 'font-awesome', name: 'key' }}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
             value={value}
           />
         )}
-        name="password"
-        defaultValue=""
+        name='password'
+        defaultValue=''
       />
       <Button
         buttonStyle={{
-          width: 150
+          marginTop: 50,
+          width: 150,
+          backgroundColor: '#fff',
+          borderRadius: 15,
+          padding: 15
         }}
-        title="Login"
+        titleStyle={{ color: 'black' }}
+        title='Giriş Yap'
         onPress={
           // removeTokenFromStorage
-          handleSubmit(onSubmit)
+          // handleSubmit(onSubmit)
           // getTokenFromStorage
-          // navigation.navigate('Home');
+          navigation.navigate('Home')
         }
       />
     </View>
@@ -95,7 +103,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 40
+    padding: 40,
+    backgroundColor: '#E83C62'
   },
   loginHeader: {
     marginBottom: 40,

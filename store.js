@@ -11,8 +11,12 @@ export const signedIn = atom(false);
 export const loginUser = atom(
   () => '',
   async (get, set, userData) => {
-    const { data } = await axios.post('http://172.20.10.2:8000/api/login', userData);
+    const { data } = await axios.post(
+      'https://wom-danismanlik-backend.herokuapp.com/api/login',
+      userData
+    );
     const dataJSON = JSON.stringify(data);
+    console.log(dataJSON);
 
     set(user, data);
     await AsyncStorage.setItem('auth', dataJSON);
@@ -33,20 +37,35 @@ export const logoutUser = atom(
 export const addItemToCart = atom(
   () => '',
   async (get, set, product) => {
-    const localValue = await AsyncStorage.getItem('cart');
-    const bakeToJson = localValue && JSON.parse(localValue);
-    console.log('Baketojson', bakeToJson);
+    const getItemsFromLocal = await AsyncStorage.getItem('cart');
+    const itemToParse = getItemsFromLocal && JSON.parse(getItemsFromLocal);
 
-    if (localValue !== null) {
-      const oldObject = bakeToJson.find((item) => item.id === product.id);
-
-      if (!oldObject) {
-        const newCartItems = [...bakeToJson, product];
-        set(cartItems, newCartItems);
-        await AsyncStorage.setItem('cart', JSON.stringify(newCartItems));
-      } else {
-        console.log('item already in cart');
+    if (getItemsFromLocal !== null && itemToParse.length >= 1) {
+      const existItem = itemToParse.find((item) => item.id === product.id);
+      if (!existItem) {
+        const jsonValue = JSON.stringify([...itemToParse, product]);
+        await AsyncStorage.setItem('cart', jsonValue);
+        console.log('local storage is not available');
       }
+    } else {
+      const newCartItems = [product];
+      console.log('newCartItems', newCartItems);
+
+      await AsyncStorage.setItem('cart', JSON.stringify(newCartItems));
     }
+  }
+);
+
+export const removeFromCart = atom(
+  () => '',
+  async (get, set, product) => {
+    const getItemsFromLocal = await AsyncStorage.getItem('cart');
+    const itemToParse = getItemsFromLocal && JSON.parse(getItemsFromLocal);
+
+    const filterItems = itemToParse.filter((item) => item.id !== product.id);
+    console.log(filterItems);
+    const newCartItems = filterItems;
+
+    await AsyncStorage.setItem('cart', JSON.stringify(filterItems));
   }
 );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
 import ProductDetailsScreen from './Screens/ProductDetailsScreen';
@@ -17,9 +18,30 @@ const Tab = createBottomTabNavigator();
 function TabNavBar() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
-      <Tab.Screen name="Account" component={Account} />
+      <Tab.Screen
+        name='Ana Sayfa'
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Ionicons name='ios-home' size={size} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name='Sepet'
+        component={CartScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Ionicons name='ios-cart' size={size} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name='Hesabim'
+        component={Account}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Ionicons name='ios-person' size={size} color={color} />
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -54,9 +76,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!signIn ? (
+        {signIn ? (
           <Stack.Screen
-            name="Login"
+            name='Login'
             component={LoginScreen}
             options={{
               headerShown: false
@@ -65,7 +87,7 @@ export default function App() {
         ) : (
           <>
             <Stack.Screen
-              name="Tab"
+              name='Tab'
               component={TabNavBar}
               options={{
                 headerShown: false
@@ -73,7 +95,7 @@ export default function App() {
             />
 
             <Stack.Screen
-              name="Home"
+              name='Home'
               component={HomeScreen}
               options={{
                 headerShown: false
@@ -81,7 +103,7 @@ export default function App() {
             />
 
             <Stack.Screen
-              name="ProductDetail"
+              name='ProductDetail'
               component={ProductDetailsScreen}
               options={{
                 headerShown: false

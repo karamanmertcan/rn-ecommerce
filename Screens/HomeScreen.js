@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, LogBox, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, LogBox, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatGrid } from 'react-native-super-grid';
 import CarouselCards from '../components/CarouselCards';
 import ProductCard from '../components/ProductCard';
-import { signedIn } from '../store';
+import { signedIn, getItemsFromStorage } from '../store';
 import { useAtom } from 'jotai';
 
 const HomeScreen = () => {
+  // const [storageItem, storageItemSet] = useAtom(getItemsFromStorage);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,10 +17,10 @@ const HomeScreen = () => {
     try {
       const res = await fetch('https://fakestoreapi.com/products/', { signal: abort });
       const data = await res.json();
-      console.log(data);
 
       setProducts(data);
       setIsLoading(false);
+      // storageItemSet();
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -44,9 +45,21 @@ const HomeScreen = () => {
       <View>
         <ScrollView>
           <View style={styles.container}>
-            <CarouselCards />
+            <Image
+              resizeMode='contain'
+              style={{ width: '100%', height: 40 }}
+              source={{
+                uri: 'https://www.letwom.com/wp-content/uploads/2021/08/cropped-logo-letwom.webp'
+              }}
+            />
+            <Image
+              resizeMode='contain'
+              style={{ width: '100%', height: '100%' }}
+              source={{
+                uri: 'https://www.letwom.com/wp-content/uploads/2021/10/letwom_banner-scaled.webp'
+              }}
+            />
           </View>
-
           <View style={styles.products}>
             {isLoading ? (
               <Text>Loading...</Text>
@@ -70,9 +83,8 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    padding: 20
+    height: 300
   },
   products: {
     minHeight: 300

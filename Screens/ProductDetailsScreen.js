@@ -8,7 +8,7 @@ import { addItemToCart } from '../store';
 const Spinner = () => {
   return (
     <View style={[styles.containerSpinner, styles.horizontal]}>
-      <ActivityIndicator size="large" color="#0984e3" />
+      <ActivityIndicator size='large' color='#0984e3' />
     </View>
   );
 };
@@ -46,7 +46,7 @@ const ProductDetailsScreen = ({ route }) => {
           <View style={styles.container}>
             <View style={styles.imageContainer}>
               <Image
-                resizeMode="contain"
+                resizeMode='contain'
                 source={{
                   uri: singleProduct?.image
                 }}
@@ -88,17 +88,18 @@ const ProductDetailsScreen = ({ route }) => {
               }}>
               <Button
                 buttonStyle={{
-                  borderRadius: 0,
+                  borderRadius: 20,
                   marginLeft: 0,
                   marginRight: 0,
                   marginBottom: 0,
                   marginTop: 10,
+                  backgroundColor: '#E83C62',
                   width: 200
                 }}
                 onPress={() => {
                   addItemSet(singleProduct);
                 }}
-                title="VIEW NOW"
+                title="WOM'LA"
               />
             </View>
           </View>

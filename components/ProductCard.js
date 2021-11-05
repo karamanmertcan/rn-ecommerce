@@ -15,14 +15,15 @@ const ProductCard = (props) => {
       <View style={styles.container}>
         <Card
           containerStyle={{
-            height: 430,
+            height: 'auto',
             justifyContent: 'center',
             alignItems: 'center',
-            width: '100%'
+            width: '100%',
+            borderRadius: 20
           }}>
-          <Card.Title>{props.title}</Card.Title>
+          <Card.Title>{props.title.slice(0, 10)}</Card.Title>
           <Card.Image
-            resizeMode="cover"
+            resizeMode='cover'
             source={{
               uri: props.image
             }}></Card.Image>
@@ -31,20 +32,20 @@ const ProductCard = (props) => {
           </Text>
           <Text style={styles.price}>{props.price} TL</Text>
           <Button
-            style={styles.button}
             buttonStyle={{
-              borderRadius: 0,
+              borderRadius: 20,
               marginLeft: 0,
               marginRight: 0,
               marginBottom: 0,
-              marginTop: 10
+              marginTop: 10,
+              backgroundColor: '#E83C62'
             }}
             onPress={() => {
               navigation.navigate('ProductDetail', {
                 itemId: props.id
               });
             }}
-            title="VIEW NOW"
+            title="WOM'LA"
           />
         </Card>
       </View>
